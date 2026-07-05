@@ -17,6 +17,9 @@ Key Features:
     'author': 'Concept Solutions LLC',
     'website': 'https://www.csloman.com/',
     'category': 'Sales/Point Of Sale',
+    'images': [
+        'static/description/banner.png',
+    ],
     'depends': ['point_of_sale'],
     'assets': {
         'point_of_sale.assets': [
