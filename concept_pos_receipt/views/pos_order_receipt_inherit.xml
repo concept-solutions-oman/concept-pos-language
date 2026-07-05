@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <!-- Inherit the main POS receipt template -->
+    <t t-extend="point_of_sale.OrderReceipt">
+
+        <!-- 1️⃣ Remove logo -->
+        <t t-jquery=".pos-receipt-logo" t-operation="replace">
+            <!-- Logo intentionally removed -->
+        </t>
+
+        <!-- 2️⃣ Replace company name with shop name -->
+        <t t-jquery=".company-name" t-operation="replace">
+            <div class="company-name" style="text-align:center; font-size:16px;">
+                <strong>Solution Store</strong>
+            </div>
+        </t>
+
+        <!-- 3️⃣ Add Arabic + English labels to tax table -->
+        <t t-jquery="div.pos-receipt-taxes" t-operation="replace">
+            <div class="pos-receipt-taxes" style="margin-top:10px;">
+                <table style="width:100%; border-collapse:collapse; font-size:13px;">
+                    <thead>
+                        <tr style="border-bottom:1px solid #000;">
+                            <th>Tax<br/><span style="font-size:10px;">الضريبة</span></th>
+                            <th>Amount<br/><span style="font-size:10px;">المبلغ</span></th>
+                            <th>Base<br/><span style="font-size:10px;">الأساس</span></th>
+                            <th>Total<br/><span style="font-size:10px;">الإجمالي</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="props.data.tax_details" t-as="tax" t-key="tax.tax.id">
+                            <tr>
+                                <td>
+                                    <t t-esc="tax.tax.letter or ''"/>
+                                    <t t-if="tax.tax.amount_type != 'fixed'">
+                                        (<t t-esc="tax.tax.amount"/>%)
+                                    </t>
+                                </td>
+                                <td style="text-align:right;">
+                                    <t t-esc="props.formatCurrency(tax.amount, false)"/>
+                                </td>
+                                <td style="text-align:right;">
+                                    <t t-esc="props.formatCurrency(tax.base, false)"/>
+                                </td>
+                                <td style="text-align:right;">
+                                    <t t-esc="props.formatCurrency(tax.amount + tax.base, false)"/>
+                                </td>
+                            </tr>
+                        </t>
+                        <t t-if="props.data.tax_details.length > 1">
+                            <tr style="border-top:1px solid #000;">
+                                <td colspan="1"></td>
+                                <td style="text-align:right;">
+                                    <t t-esc="props.formatCurrency(props.data.amount_tax, false)"/>
+                                </td>
+                                <td style="text-align:right;">
+                                    <t t-esc="props.formatCurrency(props.data.total_without_tax, false)"/>
+                                </td>
+                                <td style="text-align:right;">
+                                    <t t-esc="props.formatCurrency(props.data.amount_total, false)"/>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+        </t>
+
+    </t>
+
+</templates>
