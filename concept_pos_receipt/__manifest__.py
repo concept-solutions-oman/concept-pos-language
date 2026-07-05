@@ -19,6 +19,7 @@ Key Features:
     'category': 'Sales/Point Of Sale',
     'images': [
         'static/description/banner.png',
+        'static/description/logo.png',
     ],
     'depends': ['point_of_sale'],
     'assets': {
